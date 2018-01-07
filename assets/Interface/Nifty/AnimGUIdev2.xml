@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://nifty-gui.lessvoid.com/nifty-gui" xsi:schemaLocation="https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd">
+    <useControls filename="nifty-default-controls.xml"/>
+    <useStyles filename="nifty-default-styles.xml"/>
+    <screen id="GScreen0">
+        <layer id="GLayer0" childLayout="absolute">
+            <panel id="GPanel1" childLayout="absolute" width="135px" x="3px" y="30px" style="nifty-panel-simple" height="428px">
+                <control name="radioButtonGroup" id="GRadioGroup0" width="82px" x="21" y="7" height="14px"/>
+                <control name="radioButton" id="GRadioButton1" x="12" y="32"/>
+                <control name="radioButton" id="GRadioButton2" x="15" y="64"/>
+                <control name="radioButton" id="GRadioButton3" x="17" y="92"/>
+                <control name="radioButton" id="GRadioButton4" x="9" y="118"/>
+                <control name="radioButton" id="GRadioButton5" x="11" y="149"/>
+                <control name="radioButton" id="GRadioButton6" x="5" y="178"/>
+                <control name="radioButton" id="GRadioButton7" x="9" y="211"/>
+                <control name="radioButton" id="GRadioButton8" x="11" y="242"/>
+                <control name="radioButton" id="GRadioButton9" x="13" y="270"/>
+                <control name="radioButton" id="GRadioButton10" x="14" y="299"/>
+                <control name="radioButton" id="GRadioButton11" x="14" y="330"/>
+                <control name="radioButton" id="GRadioButton12" x="19" y="362"/>
+                <control name="radioButton" id="GRadioButton13" x="10" y="391"/>
+            </panel>
+            <panel id="GPanel2" childLayout="absolute" width="123px" x="665px" y="31px" style="nifty-panel-simple" height="420px"/>
+            <panel id="GPanel0" childLayout="absolute" width="100.0%" x="3" y="0" style="nifty-panel-simple" height="30px"/>
+            <panel id="GPanel3" childLayout="absolute" width="400px" x="8" y="494" style="nifty-panel-simple" height="102px"/>
+        </layer>
+    </screen>
+</nifty>

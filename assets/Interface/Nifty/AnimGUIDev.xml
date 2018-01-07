@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<nifty>
+    <useControls filename="nifty-default-controls.xml"/>
+    <useStyles filename="nifty-default-styles.xml"/>
+    <screen id="GScreen0" controller="devAnimation.AnimDev_1_3">
+        <layer id="GLayer0" childLayout="absolute">
+            <panel id="AnimationPanel" childLayout="absolute" width="25%" x="1" y="4" style="nifty-panel-simple" height="80%">
+                <panel id="GPanel1" childLayout="absolute" width="182px" x="8" y="5" style="nifty-panel-simple" height="208px">
+                    <control name="listBox" id="GListBox2" width="157px" x="8" y="27px" height="108px"/>
+                    <control name="label" id="GLabel2" color="#000000ff" width="150px" x="9" y="6" text="Animations" font="aurulent-sans-16.fnt" height="24px"/>
+                    <control name="button" id="GButton0" childLayout="center" width="64px" x="7" y="173" label="GButton0" height="25px"/>
+                    <control name="button" id="GButton1" childLayout="center" width="74px" x="84" y="171" label="GButton1" height="26px"/>
+                </panel>
+                <panel id="GPanel2" childLayout="absolute" width="177px" x="7" y="225" style="nifty-panel-simple" height="185px">
+                    <control name="label" id="GLabel3" color="#000000ff" width="151px" x="10" y="4" text="KeyFrames" font="aurulent-sans-16.fnt" height="24px"/>
+                    <control name="listBox" id="GListBox3" width="154px" x="8" y="23" height="74px"/>
+                    <control name="button" id="GButton2" childLayout="center" width="73px" x="7" y="154" label="GButton2" height="20px"/>
+                    <control name="button" id="GButton5" childLayout="center" width="68px" x="89" y="153" label="GButton5" height="23px"/>
+                </panel>
+            </panel>
+            <panel id="GPanel3" childLayout="absolute" width="100%" x="-2" y="509" style="nifty-panel-simple" height="15%">
+                <panel id="GPanel4" childLayout="absolute" width="30%" x="2" y="3" style="nifty-panel-simple" height="95%">
+                    <control name="label" id="GLabel4" width="73px" x="3" y="4" text="GLabel4" font="aurulent-sans-16.fnt" height="23px"/>
+                    <control name="textfield" id="GTextfield0" width="50%" x="81" y="6"/>
+                </panel>
+                <panel id="GPanel5" childLayout="absolute" width="482px" x="224" y="6" style="nifty-panel-simple" height="95%"/>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="GScreen1" controller="devAnimation.AnimDev_1_3">
+        <layer id="GLayer1" childLayout="absolute">
+            <panel id="KeyFramePanel" childLayout="absolute" width="25%" x="2" y="1" style="nifty-panel-simple" height="80%">
+                <control name="button" id="BoneButton0" childLayout="center" x="7" y="7" label="Root"/>
+                <control name="button" id="BoneButton1" childLayout="center" x="10" y="38" label="Pelvis"/>
+                <control name="button" id="BoneButton2" childLayout="center" x="15" y="67" label="L Hip"/>
+                <control name="button" id="BoneButton3" childLayout="center" x="19" y="99" label="R Hip"/>
+                <control name="button" id="BoneButton4" childLayout="center" x="16" y="132" label="L Knee"/>
+                <control name="button" id="BoneButton5" childLayout="center" x="11" y="164" label="R Knee"/>
+                <control name="button" id="BoneButton6" childLayout="center" x="11" y="190" label="Torso"/>
+                <control name="button" id="BoneButton7" childLayout="center" x="15" y="215" label="Chest"/>
+                <control name="button" id="BoneButton8" childLayout="center" x="15" y="244" label="L Shld"/>
+                <control name="button" id="BoneButton9" childLayout="center" x="16" y="275" label="R Shld"/>
+                <control name="button" id="BoneButton10" childLayout="center" x="16" y="307" label="L Elb"/>
+                <control name="button" id="BoneButton11" childLayout="center" x="19" y="337" label="R Elb"/>
+                <control name="button" id="BoneButton12" childLayout="center" x="17" y="363" label="Neck"/>
+                <control name="radioButtonGroup" id="GRadioGroup1" width="0px" x="18" y="463" height="0px"/>
+                <control name="radioButton" id="GRadioButton2" x="42" y="447" group="GRadioGroup1"/>
+                <control name="radioButton" id="GRadioButton3" x="122" y="446" group="GRadioGroup1"/>
+            </panel>
+            <panel id="GPanel7" childLayout="absolute" width="100%" x="0" y="507" style="nifty-panel-simple" height="15%">
+                <panel id="GPanel8" childLayout="absolute" width="30%" x="4" y="3" style="nifty-panel-simple" height="100%">
+                    <control name="horizontalSlider" id="GHSlider0" width="219px" x="4" y="5" height="13px" min="-90"max="90"stepSize="1"buttonStepSize="10"/>
+                    <control name="horizontalSlider" id="GHSlider1" width="216px" x="6" y="32" height="15px" min="-90"max="90"stepSize="1"buttonStepSize="10"/>
+                    <control name="horizontalSlider" id="GHSlider2" width="212px" x="7" y="56" height="15px" min="-90"max="90"stepSize="1"buttonStepSize="10"/>
+                </panel>
+                <panel id="GPanel9" childLayout="absolute" width="545px" x="244" y="5" style="nifty-panel-simple" height="100%"/>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="GScreen2" controller="devAnimation.AnimDev_1_3">
+        <layer id="GLayer2" childLayout="center">
+            <panel id="GPanelAnim" childLayout="absolute" width="50%" x="283" y="118" style="nifty-panel-simple" height="30%">
+                <control name="button" id="PButton0" childLayout="center" x="48" y="132" label="Cancel"/>
+                <control name="button" id="PButton1" childLayout="center" x="246" y="139" label="Ok"/>
+                <control name="textfield" id="GTextfield1" width="187px" x="177" y="42" height="23px"/>
+                <control name="label" id="GLabel5" width="150px" x="23" y="45" text="Animation Name" height="42px" font="aurulent-sans-16.fnt"/>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="GScreen3" controller="devAnimation.AnimDev_1_3">
+        <layer id="GLayer3" childLayout="center">
+            <panel id="GPanelKeyFrame" childLayout="absolute" width="50%" x="276" y="178" style="nifty-panel-simple" height="30%">
+                <control name="button" id="PButton2" childLayout="center" x="53" y="146" label="Cancel"/>
+                <control name="button" id="PButton3" childLayout="center" x="242" y="147" label="Ok"/>
+                <control name="textfield" id="GTextfield2" width="50%" x="176" y="55"/>
+                <control name="label" id="GLabel6" width="140px" x="34" y="53" text="KeyFrame Name" height="43px" font="aurulent-sans-16.fnt"/>
+            </panel>
+        </layer>
+    </screen>
+    
+</nifty>
+
