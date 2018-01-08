@@ -16,6 +16,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
@@ -83,41 +84,78 @@ public class HumanoidControl {
     public Node getNode(){return model;}
     
     public void buildLeg(){
-        //RIGHT LEG
-        // 14 --- 15 --- 16 --- 17
-        // 10 --- 11 --- 12 --- 13
-        //     >  8  --- 9   <
-        // 4  --- 5  --- 6  --- 7
-        // 0  --- 1  --- 2  --- 3
+        //RIGHT LEG 0 - 25
+        //       (24) ---(25)
+        // 14 --- 15  --- 16 --- 17 - (23)
+        // 10 --- 11  --- 12 --- 13 - (22)
+        //     >  8   --- 9   <  
+        // 4  --- 5   --- 6  --- 7  - (21)
+        // 0  --- 1   --- 2  --- 3  - (20)
+        //                      (18)- (19)
+        
+        // TCoords
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,0 * texture32Unit));
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,0 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,0 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,0 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,5 * texture32Unit));
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,5 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,5 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,5 * texture32Unit));
+        
+        //mesh.addTCoords(new Vector2f(0 * texture32Unit,0 * texture32Unit));
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,6 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,6 * texture32Unit));
+        //mesh.addTCoords(new Vector2f(6 * texture32Unit,0 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,7 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,10 * texture32Unit));
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,10 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,10 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,10 * texture32Unit));
 
         // Shift X by +1
-        mesh.addVertex(new Vector3f(0, 0, -1));
-        mesh.addVertex(new Vector3f(0, 0, 1));
-        mesh.addVertex(new Vector3f(2, 0, 1));
-        mesh.addVertex(new Vector3f(2, 0, -1));
+        mesh.addVertex(new Vector3f(0, 0, -1)); //0
+        mesh.addVertex(new Vector3f(0, 0, 1));  //1
+        mesh.addVertex(new Vector3f(2, 0, 1));  //2
+        mesh.addVertex(new Vector3f(2, 0, -1)); //3
 
-        mesh.addVertex(new Vector3f(0, 5, -1));
-        mesh.addVertex(new Vector3f(0, 5, 1));
-        mesh.addVertex(new Vector3f(2, 5, 1));
-        mesh.addVertex(new Vector3f(2, 5, -1));
+        mesh.addVertex(new Vector3f(0, 5, -1)); //4
+        mesh.addVertex(new Vector3f(0, 5, 1));  //5
+        mesh.addVertex(new Vector3f(2, 5, 1));  //6
+        mesh.addVertex(new Vector3f(2, 5, -1)); //7
 
         //mesh.addVertex(new Vector3f(1,6,-1));
-        mesh.addVertex(new Vector3f(0, 6, 1));
-        mesh.addVertex(new Vector3f(2, 6, 1));
+        mesh.addVertex(new Vector3f(0, 6, 1));  //8
+        mesh.addVertex(new Vector3f(2, 6, 1));  //9
         //mesh.addVertex(new Vector3f(-1,6,-1));
 
-        mesh.addVertex(new Vector3f(0, 7, -1));
-        mesh.addVertex(new Vector3f(0, 7, 1));
-        mesh.addVertex(new Vector3f(2, 7, 1));
-        mesh.addVertex(new Vector3f(2, 7, -1));
+        mesh.addVertex(new Vector3f(0, 7, -1)); //10
+        mesh.addVertex(new Vector3f(0, 7, 1));  //11
+        mesh.addVertex(new Vector3f(2, 7, 1));  //12
+        mesh.addVertex(new Vector3f(2, 7, -1)); //13
 
-        mesh.addVertex(new Vector3f(0, 10, -1));
-        mesh.addVertex(new Vector3f(0, 10, 1));
-        mesh.addVertex(new Vector3f(2, 10, 1));
-        mesh.addVertex(new Vector3f(2, 10, -1));
+        mesh.addVertex(new Vector3f(0, 10, -1));//14
+        mesh.addVertex(new Vector3f(0, 10, 1)); //15
+        mesh.addVertex(new Vector3f(2, 10, 1)); //16
+        mesh.addVertex(new Vector3f(2, 10, -1));//17
+        
+        mesh.addVertex(new Vector3f(0, 0, 1));  //18 -> 1
+        mesh.addVertex(new Vector3f(2, 0, 1));  //19 -> 2
+        mesh.addVertex(new Vector3f(0, 0, -1));  //20-> 0
+        mesh.addVertex(new Vector3f(0, 5, -1));  //21-> 4
+        mesh.addVertex(new Vector3f(0, 7, -1));  //22-> 7
+        mesh.addVertex(new Vector3f(0, 10, -1)); //23 ->10
+        mesh.addVertex(new Vector3f(0, 10, -1)); //24-> 14
+        mesh.addVertex(new Vector3f(0, 10, -1)); //25-> 17
 
         // Normals
-        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, -1); //0
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, -1);
@@ -125,14 +163,14 @@ public class HumanoidControl {
         mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
-        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, -1); //7
 
         //mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
         //mesh.addNormal(0, 0, -1);
 
-        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, -1); //10
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, -1);
@@ -140,42 +178,64 @@ public class HumanoidControl {
         mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, -1); //17
+        
+        mesh.addNormal(0, 0, -1); //18
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, -1);
+        
+        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, -1);//25
 
-        // LEFT LEG
-        // 32 --- 33 --- 34 --- 35
-        // 28 --- 29 --- 30 --- 31
-        //     >  26 --- 27  <
-        // 22 --- 23 --- 24 --- 25
-        // 18 --- 19 --- 20 --- 21
+        // LEFT LEG   26 - 51
+        //       (50) - (51)
+        // 40 --- 41 --- 42 --- 43 - (49)
+        // 36 --- 37 --- 38 --- 39 - (48)
+        //     >  34 --- 35  <
+        // 30 --- 31 --- 32 --- 33 - (47)
+        // 26 --- 27 --- 28 --- 29 - (46)
+        //                     (44)- (45)
         // Shift X by -1
-        mesh.addVertex(new Vector3f(-2, 0, -1));
-        mesh.addVertex(new Vector3f(-2, 0, 1));
-        mesh.addVertex(new Vector3f(0, 0, 1));
-        mesh.addVertex(new Vector3f(0, 0, -1));
+               
+        mesh.addVertex(new Vector3f(-2, 0, -1)); //26 
+        mesh.addVertex(new Vector3f(-2, 0, 1));  //27
+        mesh.addVertex(new Vector3f(0, 0, 1));   //28
+        mesh.addVertex(new Vector3f(0, 0, -1));  //29
 
-        mesh.addVertex(new Vector3f(-2, 5, -1));
+        mesh.addVertex(new Vector3f(-2, 5, -1)); //30
         mesh.addVertex(new Vector3f(-2, 5, 1));
         mesh.addVertex(new Vector3f(0, 5, 1));
-        mesh.addVertex(new Vector3f(0, 5, -1));
+        mesh.addVertex(new Vector3f(0, 5, -1));  //33
 
         //mesh.addVertex(new Vector3f(0,6,-1));
-        mesh.addVertex(new Vector3f(-2, 6, 1));
-        mesh.addVertex(new Vector3f(0, 6, 1));
+        mesh.addVertex(new Vector3f(-2, 6, 1));  //34
+        mesh.addVertex(new Vector3f(0, 6, 1));   //35
         //mesh.addVertex(new Vector3f(-2,6,-1));
 
-        mesh.addVertex(new Vector3f(-2, 7, -1));
+        mesh.addVertex(new Vector3f(-2, 7, -1)); //36
         mesh.addVertex(new Vector3f(-2, 7, 1));
         mesh.addVertex(new Vector3f(0, 7, 1));
-        mesh.addVertex(new Vector3f(0, 7, -1));
+        mesh.addVertex(new Vector3f(0, 7, -1));  //39
 
-        mesh.addVertex(new Vector3f(-2, 10, -1));
+        mesh.addVertex(new Vector3f(-2, 10, -1));//40
         mesh.addVertex(new Vector3f(-2, 10, 1));
         mesh.addVertex(new Vector3f(0, 10, 1));
-        mesh.addVertex(new Vector3f(0, 10, -1));
+        mesh.addVertex(new Vector3f(0, 10, -1)); //43
+        
+        mesh.addVertex(new Vector3f(-2, 0, 1));  //44 -> 27
+        mesh.addVertex(new Vector3f(0, 0, 1));  //45 -> 28
+        mesh.addVertex(new Vector3f(-2, 0, -1));  //46-> 26
+        mesh.addVertex(new Vector3f(-2, 5, -1));  //47-> 30
+        mesh.addVertex(new Vector3f(-2, 7, -1));  //48-> 36
+        mesh.addVertex(new Vector3f(-2, 10, -1)); //49 ->40
+        mesh.addVertex(new Vector3f(-2, 10, -1)); //50-> 40
+        mesh.addVertex(new Vector3f(0, 10, -1)); //51-> 43
 
         // Normals
-        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, -1); //26
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, -1);
@@ -183,14 +243,14 @@ public class HumanoidControl {
         mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
-        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, -1); //33
 
         //mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
         //mesh.addNormal(0, 0, -1);
 
-        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, -1); //36
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, -1);
@@ -198,16 +258,26 @@ public class HumanoidControl {
         mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, -1); //43
+        
+        mesh.addNormal(0, 0, -1); //44
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, -1);
+
+        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, -1); //51
 
         //RIGHT LEG
-        //       (14)---(17)
-        // 14 --- 15 --- 16 --- 17 - (14)
-        // 10 --- 11 --- 12 --- 13 - (10)
-        //     >  8  --- 9   <  
-        // 4  --- 5  --- 6  --- 7  - (4)
-        // 0  --- 1  --- 2  --- 3  - (0)
-        //       (0) ---(3)
+        //       (24) ---(25)
+        // 14 --- 15  --- 16 --- 17 - (23)
+        // 10 --- 11  --- 12 --- 13 - (22)
+        //     >  8   --- 9   <  
+        // 4  --- 5   --- 6  --- 7  - (21)
+        // 0  --- 1   --- 2  --- 3  - (20)
+        //                      (18)- (19)
 
         mesh.addTriangle((short) 4, (short) 0, (short) 1);
         mesh.addTriangle((short) 1, (short) 5, (short) 4);
@@ -236,84 +306,91 @@ public class HumanoidControl {
         mesh.addTriangle((short) 16, (short) 12, (short) 13);
         mesh.addTriangle((short) 13, (short) 17, (short) 16);
 
-        mesh.addTriangle((short) 7, (short) 3, (short) 0);
-        mesh.addTriangle((short) 0, (short) 4, (short) 7);
-        mesh.addTriangle((short) 13, (short) 7, (short) 4);
-        mesh.addTriangle((short) 4, (short) 10, (short) 13);
-        mesh.addTriangle((short) 17, (short) 13, (short) 10);
-        mesh.addTriangle((short) 10, (short) 14, (short) 17);
+        mesh.addTriangle((short) 3, (short) 18, (short) 19);
+        mesh.addTriangle((short) 19, (short) 20, (short) 3);
+        mesh.addTriangle((short) 7, (short) 3, (short) 20);
+        mesh.addTriangle((short) 20, (short) 21, (short) 7);
+        mesh.addTriangle((short) 13, (short) 7, (short) 21);
+        mesh.addTriangle((short) 21, (short) 22, (short) 13);
 
-        mesh.addTriangle((short) 1, (short) 0, (short) 3);
-        mesh.addTriangle((short) 3, (short) 2, (short) 1);
-        mesh.addTriangle((short) 14, (short) 15, (short) 16);
-        mesh.addTriangle((short) 16, (short) 17, (short) 14);
+        mesh.addTriangle((short) 17, (short) 13, (short) 22);
+        mesh.addTriangle((short) 22, (short) 23, (short) 17);
+        mesh.addTriangle((short) 24, (short) 15, (short) 16);
+        mesh.addTriangle((short) 16, (short) 25, (short) 24);
 
-        // LEFT LEG
-        //       (32) - (35)
-        // 32 --- 33 --- 34 --- 35 - (32)
-        // 28 --- 29 --- 30 --- 31 - (28)
-        //     >  26 --- 27  <
-        // 22 --- 23 --- 24 --- 25 - (22)
-        // 18 --- 19 --- 20 --- 21 - (18)
-        //       (18) - (21)
+        // LEFT LEG   26 - 51
+        //       (50) - (51)
+        // 40 --- 41 --- 42 --- 43 - (49)
+        // 36 --- 37 --- 38 --- 39 - (48)
+        //     >  34 --- 35  <
+        // 30 --- 31 --- 32 --- 33 - (47)
+        // 26 --- 27 --- 28 --- 29 - (46)
+        //                     (44)- (45)
 
-        mesh.addTriangle((short) 22, (short) 18, (short) 19);
-        mesh.addTriangle((short) 19, (short) 23, (short) 22);
-        mesh.addTriangle((short) 23, (short) 19, (short) 20);
-        mesh.addTriangle((short) 20, (short) 24, (short) 23);
-        mesh.addTriangle((short) 24, (short) 20, (short) 21);
-        mesh.addTriangle((short) 21, (short) 25, (short) 24);
-
-        mesh.addTriangle((short) 28, (short) 22, (short) 26);
-        mesh.addTriangle((short) 26, (short) 22, (short) 23);
-        mesh.addTriangle((short) 26, (short) 29, (short) 28);
-
-        mesh.addTriangle((short) 26, (short) 23, (short) 24);
-        mesh.addTriangle((short) 24, (short) 27, (short) 26);
-        mesh.addTriangle((short) 29, (short) 26, (short) 27);
-        mesh.addTriangle((short) 27, (short) 30, (short) 29);
-
-        mesh.addTriangle((short) 27, (short) 24, (short) 25);
-        mesh.addTriangle((short) 25, (short) 31, (short) 27);
-        mesh.addTriangle((short) 30, (short) 27, (short) 31);
-
+        mesh.addTriangle((short) 30, (short) 26, (short) 27);
+        mesh.addTriangle((short) 27, (short) 31, (short) 30);
+        mesh.addTriangle((short) 31, (short) 27, (short) 28);
+        mesh.addTriangle((short) 28, (short) 32, (short) 31);
         mesh.addTriangle((short) 32, (short) 28, (short) 29);
         mesh.addTriangle((short) 29, (short) 33, (short) 32);
-        mesh.addTriangle((short) 33, (short) 29, (short) 30);
-        mesh.addTriangle((short) 30, (short) 34, (short) 33);
+
+        mesh.addTriangle((short) 36, (short) 30, (short) 34);
         mesh.addTriangle((short) 34, (short) 30, (short) 31);
-        mesh.addTriangle((short) 31, (short) 35, (short) 34);
+        mesh.addTriangle((short) 34, (short) 37, (short) 36);
 
-        mesh.addTriangle((short) 25, (short) 21, (short) 18);
-        mesh.addTriangle((short) 18, (short) 22, (short) 25);
-        mesh.addTriangle((short) 31, (short) 25, (short) 22);
-        mesh.addTriangle((short) 22, (short) 28, (short) 31);
-        mesh.addTriangle((short) 35, (short) 31, (short) 28);
-        mesh.addTriangle((short) 28, (short) 32, (short) 35);
+        mesh.addTriangle((short) 34, (short) 31, (short) 32);
+        mesh.addTriangle((short) 32, (short) 35, (short) 34);
+        mesh.addTriangle((short) 37, (short) 34, (short) 35);
+        mesh.addTriangle((short) 35, (short) 38, (short) 37);
+        
+        mesh.addTriangle((short) 35, (short) 32, (short) 33);
+        mesh.addTriangle((short) 33, (short) 39, (short) 35);
+        mesh.addTriangle((short) 35, (short) 39, (short) 38);
 
-        mesh.addTriangle((short) 19, (short) 18, (short) 21);
-        mesh.addTriangle((short) 21, (short) 20, (short) 19);
-        mesh.addTriangle((short) 32, (short) 33, (short) 34);
-        mesh.addTriangle((short) 34, (short) 35, (short) 32);
+        mesh.addTriangle((short) 40, (short) 36, (short) 37);
+        mesh.addTriangle((short) 37, (short) 41, (short) 40);
+        mesh.addTriangle((short) 41, (short) 37, (short) 38);
+        mesh.addTriangle((short) 38, (short) 42, (short) 41);
+        mesh.addTriangle((short) 42, (short) 38, (short) 39);
+        mesh.addTriangle((short) 39, (short) 43, (short) 42);
+        
+        mesh.addTriangle((short) 29, (short) 44, (short) 45);
+        mesh.addTriangle((short) 45, (short) 46, (short) 29);
+        mesh.addTriangle((short) 33, (short) 29, (short) 46);
+        mesh.addTriangle((short) 46, (short) 47, (short) 33);
+        mesh.addTriangle((short) 39, (short) 33, (short) 47);
+        mesh.addTriangle((short) 47, (short) 48, (short) 39);
+        mesh.addTriangle((short) 43, (short) 39, (short) 48);
+        mesh.addTriangle((short) 48, (short) 49, (short) 43);
+        mesh.addTriangle((short) 50, (short) 41, (short) 42);
+        mesh.addTriangle((short) 42, (short) 51, (short) 50);
 
         //return mesh;
     }
     public void buildTorso(){
-        //PELVIS
-        //       (40) - (43)
-        // 40 --- 41 --- 42 --- 43 - (40)
-        // 36 --- 37 --- 38 --- 39 - (36)
-        //       (36) - (39)
+        //PELVIS   51 - 64
+        //       (63) - (64)
+        // 55 --- 56 --- 57 --- 58 - (62)
+        // 51 --- 52 --- 53 --- 54 - (61)
+        //       (59) - (60)
 
-        mesh.addVertex(new Vector3f(-2, 10, -1));
-        mesh.addVertex(new Vector3f(-2, 10, 1));
-        mesh.addVertex(new Vector3f(2, 10, 1));
-        mesh.addVertex(new Vector3f(2, 10, -1));
+        mesh.addVertex(new Vector3f(-2, 10, -1)); //51
+        mesh.addVertex(new Vector3f(-2, 10, 1));  //52
+        mesh.addVertex(new Vector3f(2, 10, 1));   //53
+        mesh.addVertex(new Vector3f(2, 10, -1));  //54
 
-        mesh.addVertex(new Vector3f(-2, 12, -1));
-        mesh.addVertex(new Vector3f(-2, 12, 1));
-        mesh.addVertex(new Vector3f(2, 12, 1));
-        mesh.addVertex(new Vector3f(2, 12, -1));
+        mesh.addVertex(new Vector3f(-2, 12, -1)); //55
+        mesh.addVertex(new Vector3f(-2, 12, 1));  //56
+        mesh.addVertex(new Vector3f(2, 12, 1));   //57
+        mesh.addVertex(new Vector3f(2, 12, -1));  //58
+        
+        mesh.addVertex(new Vector3f(-2, 10, 1));   //59
+        mesh.addVertex(new Vector3f(2, 10, 1));  //60
+
+        mesh.addVertex(new Vector3f(-2, 10, -1)); //61
+        mesh.addVertex(new Vector3f(-2, 12, -1));  //62
+        mesh.addVertex(new Vector3f(-2, 12, -1));   //63
+        mesh.addVertex(new Vector3f(2, 12, -1));  //64
 
         //normals
         mesh.addNormal(0, 0, -1);
@@ -324,7 +401,13 @@ public class HumanoidControl {
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, -1);
-        
+        //Extra normals
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, -1);
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, 1);
+        mesh.addNormal(0, 0, -1);
         //LOCATED POSSIBLE INDEX BUG
         //mesh.addTriangle((short) 40, (short) 36, (short) 47);
         mesh.addTriangle((short) 40, (short) 36, (short) 37);
