@@ -24,6 +24,7 @@ import java.util.Iterator;
  */
 public class VirtualMesh{
     ArrayList<Vector3f> positions;
+    ArrayList<Float> posU;
     ArrayList<Vector2f> tCoords;
     ArrayList<Short> indexList;
     ArrayList<Float> normals;
@@ -33,6 +34,7 @@ public class VirtualMesh{
     //INIT ARRAYLISTS
     public void initMesh(){
         positions = new ArrayList();
+        posU = new ArrayList();
         indexList = new ArrayList();
         normals = new ArrayList();
         tCoords = new ArrayList();
@@ -42,6 +44,7 @@ public class VirtualMesh{
     
     public void initMesh(boolean useTCoords){
         positions = new ArrayList();
+        posU = new ArrayList();
         indexList = new ArrayList();
         normals = new ArrayList();
         tCoords = new ArrayList();
@@ -63,7 +66,16 @@ public class VirtualMesh{
 
     public void addVertex(Vector3f pos){
         positions.add(pos);
+        
+        //singleVertex(pos.x);
+        //singleVertex(pos.y);
+        //singleVertex(pos.z);
     }
+    
+    protected void singleVertex(float value){
+        //posU.add(value);
+    }
+    
     public void addTriangle(short a, short b, short c){
         indexList.add((short)(a));
         indexList.add((short)(b));
@@ -82,13 +94,17 @@ public class VirtualMesh{
 
     public Mesh buildBlockMesh() {
         Mesh mesh = new Mesh();
-
+        
+        //Float[] pVertsU = new Float[posU.size()/3];
+        //Vector3f[] pVertices = new Vector3f[posU.size()/3];
         Vector3f[] pVertices = new Vector3f[positions.size()];
-        Iterator<Vector3f> positionsIterator = positions.iterator();
-        for(int i=0;positionsIterator.hasNext();i++){
-            pVertices[i] = positionsIterator.next();
+        System.out.println("Position count: " + positions.size());
+        Iterator<Float> posUIter = posU.iterator();
+        Iterator<Vector3f> positionsIter = positions.iterator();
+        for(int i=0;positionsIter.hasNext();i++){
+            pVertices[i] = positionsIter.next();
         }
-
+        
         short[] indices = new short[indexList.size()];
         Iterator<Short> indicesIterator = indexList.iterator();
         for(int i=0;indicesIterator.hasNext();i++){
@@ -97,6 +113,7 @@ public class VirtualMesh{
 
         //float[] fNormals = new float[normals.size()]; 
         Vector3f[] pNormals = new Vector3f[normals.size()/3];
+        System.out.println("Normals count: " + normals.size()/3);
         Iterator<Float> normalsIterator = normals.iterator();
         for(int i=0;normalsIterator.hasNext();i++){
             pNormals[i] = new Vector3f(normalsIterator.next(),normalsIterator.next(),normalsIterator.next());
@@ -116,6 +133,7 @@ public class VirtualMesh{
             }
             mesh.setBuffer(VertexBuffer.Type.TexCoord, 2, BufferUtils.createFloatBuffer(pTCoors));
         }
+        
         
         mesh.updateBound();
         mesh.updateCounts();

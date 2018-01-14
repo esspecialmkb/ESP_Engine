@@ -24,7 +24,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.scene.VertexBuffer.Usage;
+import static com.jme3.scene.plugins.fbx.mesh.FbxLayerElement.Type.Texture;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
@@ -71,17 +73,298 @@ public class HumanoidControl {
     
     public void initMesh(AssetManager assetManager){
         mesh = new VirtualMesh();
-        mesh.initMesh();
+        mesh.initMesh(true);
         
         buildLeg();
         buildTorso();
         buildArm();
         buildHead();
+        buildTCoords();
         System.out.println("buildBones()");
         buildBones(assetManager);
     }
     
     public Node getNode(){return model;}
+    
+    public void buildTCoords(){
+        // TCoords
+        //RIGHT LEG 0 - 25
+        //       (24) ---(25)
+        // 14 --- 15  --- 16 --- 17 - (23)
+        // 10 --- 11  --- 12 --- 13 - (22)
+        //     >  8   --- 9   <  
+        // 4  --- 5   --- 6  --- 7  - (21)
+        // 0  --- 1   --- 2  --- 3  - (20)
+        //                      (18)- (19)
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,2 * texture32Unit)); // 0
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,2 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,2 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,2 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,7 * texture32Unit)); // 4
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,7 * texture32Unit));
+        
+        //mesh.addTCoords(new Vector2f(0 * texture32Unit,0 * texture32Unit));
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,8 * texture32Unit)); // 8
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,8 * texture32Unit));
+        //mesh.addTCoords(new Vector2f(6 * texture32Unit,0 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,9 * texture32Unit)); // 10
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,9 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,9 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,9 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,12 * texture32Unit)); // 14
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,12 * texture32Unit));
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,12 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,12 * texture32Unit)); 
+        
+        
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,0 * texture32Unit)); // 18
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,0 * texture32Unit)); // 19
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,2 * texture32Unit)); // 20
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,7 * texture32Unit)); // 21
+        
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,9 * texture32Unit)); // 22
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,12 * texture32Unit)); // 23
+        mesh.addTCoords(new Vector2f(2 * texture32Unit,14 * texture32Unit)); // 24
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,14 * texture32Unit)); // 25
+        
+        // LEFT LEG   26 - 51
+        //       (50) - (51)
+        // 40 --- 41 --- 42 --- 43 - (49)
+        // 36 --- 37 --- 38 --- 39 - (48)
+        //     >  34 --- 35  <
+        // 30 --- 31 --- 32 --- 33 - (47)
+        // 26 --- 27 --- 28 --- 29 - (46)
+        //                     (44)- (45)
+        
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,2 * texture32Unit)); // 26
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,2 * texture32Unit));
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,2 * texture32Unit));
+        mesh.addTCoords(new Vector2f(14 * texture32Unit,2 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,7 * texture32Unit)); // 30
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(14 * texture32Unit,7 * texture32Unit));
+        
+        //mesh.addTCoords(new Vector2f(0 * texture32Unit,0 * texture32Unit));
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,8 * texture32Unit)); // 34
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,8 * texture32Unit));
+        //mesh.addTCoords(new Vector2f(6 * texture32Unit,0 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,9 * texture32Unit)); // 36
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,9 * texture32Unit));
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,9 * texture32Unit));
+        mesh.addTCoords(new Vector2f(14 * texture32Unit,9 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(8 * texture32Unit,12 * texture32Unit)); // 40
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,12 * texture32Unit));
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,12 * texture32Unit));
+        mesh.addTCoords(new Vector2f(14 * texture32Unit,12 * texture32Unit)); 
+        
+        mesh.addTCoords(new Vector2f(14 * texture32Unit,0 * texture32Unit)); // 44
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,0 * texture32Unit)); // 45
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,2 * texture32Unit)); // 46
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,7 * texture32Unit)); // 47
+        
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,9 * texture32Unit)); // 48
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,12 * texture32Unit)); // 49
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,14 * texture32Unit)); // 50
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,14 * texture32Unit)); // 51
+        
+        //PELVIS   52 - 65
+        //
+        //       (64) - (65)
+        // 56 --- 57 --- 58 --- 59 - (63)
+        // 52 --- 53 --- 54 --- 55 - (62)
+        //                     (60)- (61)
+        
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,17 * texture32Unit)); // 52
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,17 * texture32Unit));
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,17 * texture32Unit));
+        mesh.addTCoords(new Vector2f(18 * texture32Unit,17 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,19 * texture32Unit)); // 56
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,19 * texture32Unit));
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,19 * texture32Unit));
+        mesh.addTCoords(new Vector2f(18 * texture32Unit,19 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(18 * texture32Unit,15 * texture32Unit)); // 60
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,15 * texture32Unit)); // 61
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,17 * texture32Unit)); // 62
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,19 * texture32Unit)); // 63
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,19 * texture32Unit)); // 64
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,19 * texture32Unit)); // 65
+        
+        //TORSO   66 - 79
+        //
+        //       (78) - (79)
+        // 70 --- 71 --- 72 --- 73 - (77)
+        // 66 --- 67 --- 68 --- 69 - (76)
+        //                     (74)- (75)
+        
+        mesh.addTCoords(new Vector2f(20 * texture32Unit,12 * texture32Unit)); // 66
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,12 * texture32Unit));
+        mesh.addTCoords(new Vector2f(26 * texture32Unit,12 * texture32Unit));
+        mesh.addTCoords(new Vector2f(28 * texture32Unit,12 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(20 * texture32Unit,15 * texture32Unit)); // 70
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,15 * texture32Unit));
+        mesh.addTCoords(new Vector2f(26 * texture32Unit,15 * texture32Unit));
+        mesh.addTCoords(new Vector2f(28 * texture32Unit,15 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(28 * texture32Unit,10 * texture32Unit)); // 74
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,10 * texture32Unit)); // 75
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,12 * texture32Unit)); // 76
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,15 * texture32Unit)); // 77
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,17 * texture32Unit)); // 78
+        mesh.addTCoords(new Vector2f(26 * texture32Unit,17 * texture32Unit)); // 79
+        
+        //CHEST  80 - 93
+        //
+        //       (92) - (93)
+        // 84 --- 85 --- 86 --- 87 - (91)
+        // 80 --- 81 --- 82 --- 83 - (90)
+        //                     (88)- (89)
+        
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,14 * texture32Unit)); // 80
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,14 * texture32Unit));
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,14 * texture32Unit));
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,14 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(4 * texture32Unit,17 * texture32Unit)); // 84
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,17 * texture32Unit));
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,17 * texture32Unit));
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,17 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,12 * texture32Unit)); // 88
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,12 * texture32Unit)); // 89
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,14 * texture32Unit)); // 90
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,17 * texture32Unit)); // 91
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,19 * texture32Unit)); // 92
+        mesh.addTCoords(new Vector2f(10 * texture32Unit,19 * texture32Unit)); // 93
+        
+        //RIGHT ARM   94  - 120
+        //
+        //        (119) - (120)
+        // 108 --- 109 --- 110 --- 111 - (118)
+        // 104 --- 105 --- 106 --- 107 - (117)
+        // 102  <   |      |    >  103 - (116)
+        // 98  --- 99  --- 100 --- 101 - (115)
+        // 94  --- 95  --- 96  --- 97  - (114)
+        //                        (112)- (113)
+        
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,2 * texture32Unit)); // 94
+        mesh.addTCoords(new Vector2f(18 * texture32Unit,2 * texture32Unit));
+        mesh.addTCoords(new Vector2f(20 * texture32Unit,2 * texture32Unit));
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,2 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,5 * texture32Unit)); // 98
+        mesh.addTCoords(new Vector2f(18 * texture32Unit,5 * texture32Unit));
+        mesh.addTCoords(new Vector2f(20 * texture32Unit,5 * texture32Unit));
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,5 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,6 * texture32Unit)); // 102
+        //mesh.addTCoords(new Vector2f(10 * texture32Unit,8 * texture32Unit)); 
+        //mesh.addTCoords(new Vector2f(12 * texture32Unit,8 * texture32Unit));
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,6 * texture32Unit)); // 103
+        
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,7 * texture32Unit)); // 104
+        mesh.addTCoords(new Vector2f(18 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(20 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,7 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(16 * texture32Unit,10 * texture32Unit)); // 108
+        mesh.addTCoords(new Vector2f(18 * texture32Unit,10 * texture32Unit));
+        mesh.addTCoords(new Vector2f(20 * texture32Unit,10 * texture32Unit));
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,10 * texture32Unit)); 
+        
+        mesh.addTCoords(new Vector2f(22 * texture32Unit,0 * texture32Unit)); // 112
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,0 * texture32Unit)); // 113
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,2 * texture32Unit)); // 114
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,5 * texture32Unit)); // 115
+        
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,6 * texture32Unit)); // 116
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,7 * texture32Unit)); // 117
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,10 * texture32Unit)); // 118
+        mesh.addTCoords(new Vector2f(18 * texture32Unit,12* texture32Unit)); // 119
+        mesh.addTCoords(new Vector2f(20 * texture32Unit,12 * texture32Unit)); // 120
+        
+        // LEFT ARM -> FIXED INDICES!!!
+        //  121  -  147
+        //
+        //       (146)---(147)
+        // 135 --- 136 --- 137 --- 138 - (145)
+        // 131 --- 132 --- 133 --- 134 - (144)
+        // 129  <   |       |   >  130 - (143)
+        // 125 --- 126 --- 127 --- 128 - (142)
+        // 121 --- 122 --- 123 --- 124 - (141)
+        //                        (139) - (140)
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,2 * texture32Unit)); // 121
+        mesh.addTCoords(new Vector2f(26 * texture32Unit,2 * texture32Unit));
+        mesh.addTCoords(new Vector2f(28 * texture32Unit,2 * texture32Unit));
+        mesh.addTCoords(new Vector2f(30 * texture32Unit,2 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,5 * texture32Unit)); // 125
+        mesh.addTCoords(new Vector2f(26 * texture32Unit,5 * texture32Unit));
+        mesh.addTCoords(new Vector2f(28 * texture32Unit,5 * texture32Unit));
+        mesh.addTCoords(new Vector2f(30 * texture32Unit,5 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,6 * texture32Unit)); // 129
+        //mesh.addTCoords(new Vector2f(10 * texture32Unit,8 * texture32Unit)); 
+        //mesh.addTCoords(new Vector2f(12 * texture32Unit,8 * texture32Unit));
+        mesh.addTCoords(new Vector2f(30 * texture32Unit,6 * texture32Unit)); // 130
+        
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,7 * texture32Unit)); // 131
+        mesh.addTCoords(new Vector2f(26 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(28 * texture32Unit,7 * texture32Unit));
+        mesh.addTCoords(new Vector2f(30 * texture32Unit,7 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(24 * texture32Unit,10 * texture32Unit)); // 135
+        mesh.addTCoords(new Vector2f(26 * texture32Unit,10 * texture32Unit));
+        mesh.addTCoords(new Vector2f(28 * texture32Unit,10 * texture32Unit));
+        mesh.addTCoords(new Vector2f(30 * texture32Unit,10 * texture32Unit)); 
+        
+        mesh.addTCoords(new Vector2f(30 * texture32Unit,0 * texture32Unit)); // 139
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,0 * texture32Unit)); // 140
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,2 * texture32Unit)); // 141
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,5 * texture32Unit)); // 142
+        
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,6 * texture32Unit)); // 143
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,7 * texture32Unit)); // 144
+        mesh.addTCoords(new Vector2f(32 * texture32Unit,10 * texture32Unit)); // 145
+        mesh.addTCoords(new Vector2f(26 * texture32Unit,12* texture32Unit)); // 146
+        mesh.addTCoords(new Vector2f(28 * texture32Unit,12 * texture32Unit)); // 147
+        
+        //HEAD  148 -  161
+        //
+        //        (160) - (161)
+        // 152 --- 153 --- 154 --- 155 - (159)
+        // 148 --- 149 --- 150 --- 151 - (158)
+        //                        (156)- (157)
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,22 * texture32Unit)); // 148
+        mesh.addTCoords(new Vector2f(3 * texture32Unit,22 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,22 * texture32Unit));
+        mesh.addTCoords(new Vector2f(9 * texture32Unit,22 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(0 * texture32Unit,25 * texture32Unit)); // 152
+        mesh.addTCoords(new Vector2f(3 * texture32Unit,25 * texture32Unit));
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,25 * texture32Unit));
+        mesh.addTCoords(new Vector2f(9 * texture32Unit,25 * texture32Unit));
+        
+        mesh.addTCoords(new Vector2f(9 * texture32Unit,19 * texture32Unit)); // 156
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,19 * texture32Unit)); // 157
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,22 * texture32Unit)); // 158
+        mesh.addTCoords(new Vector2f(12 * texture32Unit,25 * texture32Unit)); // 159
+        mesh.addTCoords(new Vector2f(3 * texture32Unit,28 * texture32Unit)); // 160
+        mesh.addTCoords(new Vector2f(6 * texture32Unit,28 * texture32Unit)); // 161
+    }
     
     public void buildLeg(){
         //RIGHT LEG 0 - 25
@@ -93,33 +376,6 @@ public class HumanoidControl {
         // 0  --- 1   --- 2  --- 3  - (20)
         //                      (18)- (19)
         
-        // TCoords
-        /*
-        mesh.addTCoords(new Vector2f(0 * texture32Unit,0 * texture32Unit));
-        mesh.addTCoords(new Vector2f(2 * texture32Unit,0 * texture32Unit));
-        mesh.addTCoords(new Vector2f(4 * texture32Unit,0 * texture32Unit));
-        mesh.addTCoords(new Vector2f(6 * texture32Unit,0 * texture32Unit));
-        
-        mesh.addTCoords(new Vector2f(0 * texture32Unit,5 * texture32Unit));
-        mesh.addTCoords(new Vector2f(2 * texture32Unit,5 * texture32Unit));
-        mesh.addTCoords(new Vector2f(4 * texture32Unit,5 * texture32Unit));
-        mesh.addTCoords(new Vector2f(6 * texture32Unit,5 * texture32Unit));
-        
-        //mesh.addTCoords(new Vector2f(0 * texture32Unit,0 * texture32Unit));
-        mesh.addTCoords(new Vector2f(2 * texture32Unit,6 * texture32Unit));
-        mesh.addTCoords(new Vector2f(4 * texture32Unit,6 * texture32Unit));
-        //mesh.addTCoords(new Vector2f(6 * texture32Unit,0 * texture32Unit));
-        
-        mesh.addTCoords(new Vector2f(0 * texture32Unit,7 * texture32Unit));
-        mesh.addTCoords(new Vector2f(2 * texture32Unit,7 * texture32Unit));
-        mesh.addTCoords(new Vector2f(4 * texture32Unit,7 * texture32Unit));
-        mesh.addTCoords(new Vector2f(6 * texture32Unit,7 * texture32Unit));
-        
-        mesh.addTCoords(new Vector2f(0 * texture32Unit,10 * texture32Unit));
-        mesh.addTCoords(new Vector2f(2 * texture32Unit,10 * texture32Unit));
-        mesh.addTCoords(new Vector2f(4 * texture32Unit,10 * texture32Unit));
-        mesh.addTCoords(new Vector2f(6 * texture32Unit,10 * texture32Unit)); */
-
         // Shift X by +1
         mesh.addVertex(new Vector3f(0, 0, -1)); //0
         mesh.addVertex(new Vector3f(0, 0, 1));  //1
@@ -368,6 +624,7 @@ public class HumanoidControl {
 
         //return mesh;
     }
+    
     public void buildTorso(){
         //PELVIS   52 - 65
         //
@@ -410,6 +667,14 @@ public class HumanoidControl {
         mesh.addNormal(0, 0, 1);
         mesh.addNormal(0, 0, -1); // 65
         //LOCATED POSSIBLE INDEX BUG
+        
+        //PELVIS   52 - 65
+        //
+        //       (64) - (65)
+        // 56 --- 57 --- 58 --- 59 - (63)
+        // 52 --- 53 --- 54 --- 55 - (62)
+        //                     (60)- (61)
+        
         //mesh.addTriangle((short) 40, (short) 36, (short) 47);
         mesh.addTriangle((short) 56, (short) 52, (short) 53);
         mesh.addTriangle((short) 53, (short) 57, (short) 56);
@@ -468,8 +733,15 @@ public class HumanoidControl {
         mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, 1);  // 79
+        
+        //TORSO   66 - 79
+        //
+        //       (78) - (79)
+        // 70 --- 71 --- 72 --- 73 - (77)
+        // 66 --- 67 --- 68 --- 69 - (76)
+        //                     (74)- (75)
 
-        mesh.addTriangle((short) 70, (short) 66, (short) 76);
+        mesh.addTriangle((short) 70, (short) 66, (short) 67);
         mesh.addTriangle((short) 67, (short) 71, (short) 70);
         mesh.addTriangle((short) 71, (short) 67, (short) 68);
         mesh.addTriangle((short) 68, (short) 72, (short) 71);
@@ -523,6 +795,13 @@ public class HumanoidControl {
         mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, -1);
         mesh.addNormal(0, 0, 1); // 93
+        
+        //CHEST  80 - 93
+        //
+        //       (92) - (93)
+        // 84 --- 85 --- 86 --- 87 - (91)
+        // 80 --- 81 --- 82 --- 83 - (90)
+        //                     (88)- (89)
 
         mesh.addTriangle((short) 84, (short) 80, (short) 81);
         mesh.addTriangle((short) 81, (short) 85, (short) 84);
@@ -538,6 +817,7 @@ public class HumanoidControl {
         mesh.addTriangle((short) 92, (short) 85, (short) 86);
         mesh.addTriangle((short) 86, (short) 93, (short) 92);
     }
+    
     public void buildArm(){
         //RIGHT ARM   94  - 120
         //
@@ -635,7 +915,7 @@ public class HumanoidControl {
         // 121 --- 122 --- 123 --- 124 - (141)
         //       (139) - (140)
         // Shift X by -1*2
-        mesh.addVertex(new Vector3f(-4, 10, -1));
+        mesh.addVertex(new Vector3f(-4, 10, -1)); //121
         mesh.addVertex(new Vector3f(-4, 10, 1));
         mesh.addVertex(new Vector3f(-2, 10, 1));
         mesh.addVertex(new Vector3f(-2, 10, -1));
@@ -643,22 +923,33 @@ public class HumanoidControl {
         mesh.addVertex(new Vector3f(-4, 13, -1));
         mesh.addVertex(new Vector3f(-4, 13, 1));
         mesh.addVertex(new Vector3f(-2, 13, 1));
-        mesh.addVertex(new Vector3f(-2, 13, -1));
+        mesh.addVertex(new Vector3f(-2, 13, -1)); //128
 
-        mesh.addVertex(new Vector3f(-4, 14, -1));
+        mesh.addVertex(new Vector3f(-4, 14, -1)); // 129
         //mesh.addVertex(new Vector3f(0,14,1));
         //mesh.addVertex(new Vector3f(-2,14,1));
-        mesh.addVertex(new Vector3f(-2, 14, -1));
+        mesh.addVertex(new Vector3f(-2, 14, -1)); // 130
 
-        mesh.addVertex(new Vector3f(-4, 15, -1));
+        mesh.addVertex(new Vector3f(-4, 15, -1)); // 131
         mesh.addVertex(new Vector3f(-4, 15, 1));
         mesh.addVertex(new Vector3f(-2, 15, 1));
-        mesh.addVertex(new Vector3f(-2, 15, -1));
+        mesh.addVertex(new Vector3f(-2, 15, -1)); //134
 
-        mesh.addVertex(new Vector3f(-4, 18, -1));
+        mesh.addVertex(new Vector3f(-4, 18, -1)); // 135
         mesh.addVertex(new Vector3f(-4, 18, 1));
         mesh.addVertex(new Vector3f(-2, 18, 1));
-        mesh.addVertex(new Vector3f(-2, 18, -1));
+        mesh.addVertex(new Vector3f(-2, 18, -1)); // 138
+        
+        //missing verts!!! 138 -> old
+        mesh.addVertex(new Vector3f(-4, 10, 1));
+        mesh.addVertex(new Vector3f(-2, 10, 1));
+        mesh.addVertex(new Vector3f(-4, 10, -1)); // 141 -> 121
+        mesh.addVertex(new Vector3f(-4, 13, -1));
+        mesh.addVertex(new Vector3f(-4, 14, -1)); // 143 -> 129
+        mesh.addVertex(new Vector3f(-4, 15, -1)); // 144 -> 131
+        mesh.addVertex(new Vector3f(-4, 18, -1)); // 145 -> 135
+        mesh.addVertex(new Vector3f(-4, 18, -1)); // 146 -> 135
+        mesh.addVertex(new Vector3f(-2, 18, -1)); // 147 -> 138
 
         // Normals
         mesh.addNormal(0, 0, 1); // 100 (old) -> 121
@@ -803,6 +1094,7 @@ public class HumanoidControl {
 
         
     }
+    
     public void buildHead(){ //103 to 161 (+ 58 verts)
         //Dimension variables
         float headWidth = 1.5f;
@@ -865,6 +1157,7 @@ public class HumanoidControl {
         mesh.addTriangle((short) 160, (short) 153, (short) 154);
         mesh.addTriangle((short) 154, (short) 161, (short) 160);
     }
+    
     public void buildBones(AssetManager assetManager){
         sceneMesh = mesh.buildBlockMesh();
         // Setup bone weight buffer
@@ -884,10 +1177,10 @@ public class HumanoidControl {
         sceneMesh.setBuffer(weightsBuf);
 
         // Setup bone index buffer
-        //indices = ByteBuffer.allocate( sceneMesh.getVertexCount() * 4 );
+        indices = ByteBuffer.allocate( sceneMesh.getVertexCount() * 4 );
         System.out.println("Vertex vCount: " + mesh.positions.size());
         System.out.println("Vertex mCount: " + sceneMesh.getVertexCount());
-        indices = ByteBuffer.allocate( 162 * 4 );
+        //indices = ByteBuffer.allocate( 162 * 4 );
         VertexBuffer indicesBuf = new VertexBuffer(Type.BoneIndex);
         indicesBuf.setupData(Usage.CpuOnly, 4, VertexBuffer.Format.UnsignedByte, indices);
         sceneMesh.setBuffer(indicesBuf);
@@ -1242,7 +1535,12 @@ public class HumanoidControl {
         Material matR = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         Material matG = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
 
-        Material matWire = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        Material matWire = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
+        
+        Material matSkin = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
+        Texture skinTex = assetManager.loadTexture("Textures/SkinTemplate256_2.png"); 
+        matSkin.setTexture("ColorMap", skinTex); 
+        
         mat.setColor("Color", ColorRGBA.Blue);
         matR.setColor("Color", ColorRGBA.Red);
         matG.setColor("Color", ColorRGBA.Green);
@@ -1264,7 +1562,8 @@ public class HumanoidControl {
         debugElbR.setMaterial(matG);
         debugNeck.setMaterial(mat);
 
-        geom.setMaterial(matWire);
+        //geom.setMaterial(matWire);
+        geom.setMaterial(matSkin);
         model = new Node("model");
         model.attachChild(geom);
 
