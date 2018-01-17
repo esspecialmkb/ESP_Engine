@@ -27,6 +27,7 @@ import com.jme3.scene.VertexBuffer.Usage;
 import static com.jme3.scene.plugins.fbx.mesh.FbxLayerElement.Type.Texture;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
+import com.jme3.texture.Texture.MagFilter;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
@@ -1539,7 +1540,9 @@ public class HumanoidControl {
         
         Material matSkin = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
         Texture skinTex = assetManager.loadTexture("Textures/SkinTemplate256_2.png"); 
+        skinTex.setMagFilter(MagFilter.Nearest);
         matSkin.setTexture("ColorMap", skinTex); 
+        //skinTex.setMagFilter(Texture.MagFilter.);
         
         mat.setColor("Color", ColorRGBA.Blue);
         matR.setColor("Color", ColorRGBA.Red);

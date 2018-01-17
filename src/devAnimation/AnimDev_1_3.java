@@ -482,7 +482,7 @@ public class AnimDev_1_3 extends SimpleApplication implements ScreenController {
     public static void main(String[] args) {
         AnimDev_1_3 app = new AnimDev_1_3();
         AppSettings settings = new AppSettings(false);
-        settings.setTitle("AnimDev 1.2.3");
+        settings.setTitle("AnimDev 1.3");
         app.setSettings(settings);
         //app.showSettings = false;
         app.setDisplayStatView(false);
