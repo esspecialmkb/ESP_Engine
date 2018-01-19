@@ -11,9 +11,11 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
@@ -27,11 +29,16 @@ import com.jme3.scene.Spatial;
  *
  * @author esspe
  */
-public class DevCameraAppState extends AbstractAppState implements AnalogListener, ActionListener {
+public class AnimDev_CamState extends AbstractAppState implements AnalogListener, ActionListener {
 
     private boolean follow;
+    private boolean freeLook = false;
+    private boolean rotateLook = false;
     
     public enum InputMapping{
+        SelectJoint,
+        CameraLook,
+        CameraRotate,
         MoveLeft,
         MoveRight,
         MoveUp,
@@ -44,22 +51,36 @@ public class DevCameraAppState extends AbstractAppState implements AnalogListene
     
     private Camera cam;
     private Node translateNode;
-    private Node rotationNode;
+    private Node rotateNode;
+    private Node camPosTarget;
     private InputManager inputManager;
     
-    private Vector3f camLocation = new Vector3f(0, 20, 0);
-    private Vector3f lookAtDirection = new Vector3f(0, -0.8f, -0.2f);
-    private float camDistance = 20.0f;
+    private Vector3f camLocation = new Vector3f(0, 2.5f, 10);
+    private Vector3f lookAtDirection = new Vector3f(0, 0, -0.2f);
+    private float camDistance = 10.0f;
     private float moveSpeed = 50.0f;
     float rotateSpeed;
+    private Vector2f cursorPosition;
+    private Vector2f lastCursorPosition;
+
 
     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         this.cam = app.getCamera();
-        Vector3f lookAtDirection = new Vector3f(0, -0.8f, -0.2f);
+        
+        translateNode = new Node();
+        rotateNode = new Node();
+        camPosTarget = new Node();
+        
+        translateNode.setLocalTranslation(0,0,0);
+        rotateNode.setLocalTranslation(0, 3.5f, 0);
+        translateNode.attachChild(rotateNode);
+        rotateNode.attachChild(camPosTarget);
+        
+        //Vector3f lookAtDirection = new Vector3f(0, 0f, -1f);
         cam.lookAtDirection(lookAtDirection, Vector3f.UNIT_Y);
-        camLocation.set(cam.getDirection().mult(-camDistance));
+        //camLocation.set(cam.getDirection().mult(-camDistance));
         cam.setLocation(camLocation);
         this.inputManager = app.getInputManager();
         addInputMappings();
@@ -70,9 +91,16 @@ public class DevCameraAppState extends AbstractAppState implements AnalogListene
         inputManager.addMapping(InputMapping.MoveRight.name(), new KeyTrigger(KeyInput.KEY_D), new KeyTrigger(KeyInput.KEY_RIGHT));
         inputManager.addMapping(InputMapping.MoveUp.name(), new KeyTrigger(KeyInput.KEY_W), new KeyTrigger(KeyInput.KEY_UP));
         inputManager.addMapping(InputMapping.MoveDown.name(), new KeyTrigger(KeyInput.KEY_S), new KeyTrigger(KeyInput.KEY_DOWN));
-        inputManager.addMapping(InputMapping.RotateLeft.name(), new KeyTrigger(KeyInput.KEY_E));
-        inputManager.addMapping(InputMapping.RotateRight.name(), new KeyTrigger(KeyInput.KEY_Q));
-        inputManager.addListener(this, new String[]{InputMapping.MoveLeft.name(), InputMapping.MoveRight.name(), InputMapping.MoveUp.name(), InputMapping.MoveDown.name(),InputMapping.RotateLeft.name(),InputMapping.RotateRight.name()});
+        
+        inputManager.addMapping(InputMapping.CameraLook.name(), new KeyTrigger(KeyInput.KEY_LSHIFT));
+        inputManager.addMapping(InputMapping.CameraRotate.name(), new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
+        inputManager.addMapping(InputMapping.SelectJoint.name(), new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+        
+        //inputManager.addMapping(InputMapping.RotateLeft.name(), new KeyTrigger(KeyInput.KEY_E));
+        //inputManager.addMapping(InputMapping.RotateRight.name(), new KeyTrigger(KeyInput.KEY_Q));
+        //inputManager.addMapping(InputMapping.RotateUp.name(), new KeyTrigger(KeyInput.KEY_R));
+        //inputManager.addMapping(InputMapping.RotateDown.name(), new KeyTrigger(KeyInput.KEY_F));
+        inputManager.addListener(this, new String[]{InputMapping.MoveLeft.name(), InputMapping.MoveRight.name(), InputMapping.MoveUp.name(), InputMapping.MoveDown.name()});
         
     }
     
@@ -95,64 +123,24 @@ public class DevCameraAppState extends AbstractAppState implements AnalogListene
         
         checkMousePosition(tempVector);
         
-        if(moveUp){
-            tempVector.addLocal(0, 0, 1f);
-        } else if(moveDown){
-            tempVector.addLocal(0, 0, -1f);
-        }
-        if(moveLeft){
-            tempVector.addLocal(1f, 0, 0);
-        } else if (moveRight){
-            tempVector.addLocal(-1f, 0, 0);
-        }
-        
-        if(rotateLeft){
-            rotate(rotateSpeed);
-        } else if (rotateRight){
-            rotate(-rotateSpeed);
-        }
-        
-        //if(zoomIn){
-            
-        //} else if(zoomOut){
-            
-        //}
-        
-        cam.getRotation().multLocal(tempVector);
-        tempVector.multLocal(1, 0, 1).normalizeLocal();
-        tempVector.multLocal(tpf).multLocal(moveSpeed);
-        camLocation.addLocal(tempVector);
-
-        /**
-         * Follow / Goto
-         *
-        if(tempVector.length() > 0){
-            follow = false;
-        }
-        
-        if(follow){
-            Vector3f targetLocation2D = targetLocation.mult(UNIT_XZ);
-            Vector3f camDirOffset = cam.getDirection().mult(camDistance);
-            Vector3f camLocation2D = camLocation.add(camDirOffset).multLocal(UNIT_XZ); 
-            if(targetLocation2D.distance(camLocation2D) > 0.01f){
-                camLocation2D.interpolateLocal(targetLocation2D, 0.3f);
-                camLocation.set(camLocation2D);
-                camLocation.subtractLocal(camDirOffset);
-            } else {
-                camLocation2D.set(targetLocation2D);
+        if(freeLook == true){
+            // If free look is turned on, allow the camera to move as such
+            if(moveUp){
+                tempVector.addLocal(0, 0, 1f);
+            } else if(moveDown){
+                tempVector.addLocal(0, 0, -1f);
             }
+            if(moveLeft){
+                tempVector.addLocal(1f, 0, 0);
+            } else if (moveRight){
+                tempVector.addLocal(-1f, 0, 0);
+            }
+        }else if(rotateLook == true){
+            // Rotate the camera with the mouse when RMB is down
+            cursorPosition = inputManager.getCursorPosition();
+            //Get the change in cursor position since the last time this mode was triggered
+            
         }
-        /**
-         * 
-         */
-        
-        /**
-         * Follow terrain
-         *
-        camLocation.setY(checkHeight() + camDistance);
-        /**
-         * 
-         */
         
         cam.setLocation(camLocation);
     }
@@ -171,8 +159,14 @@ public class DevCameraAppState extends AbstractAppState implements AnalogListene
         }
     }
     
-    private void rotate(float value){
+    private void rotateY(float value){
         Quaternion rotate = new Quaternion().fromAngleAxis(FastMath.PI * value, Vector3f.UNIT_Y);
+        rotate.multLocal(cam.getRotation());
+        cam.setRotation(rotate);
+    }
+    
+    private void rotateX(float value){
+        Quaternion rotate = new Quaternion().fromAngleAxis(FastMath.PI * value, Vector3f.UNIT_X);
         rotate.multLocal(cam.getRotation());
         cam.setRotation(rotate);
     }
@@ -223,54 +217,20 @@ public class DevCameraAppState extends AbstractAppState implements AnalogListene
             case RotateDown:
                 rotateDown = isPressed;
                 break;
+            case SelectJoint:
+                // Do a ray-cast here to select a joint
+                cursorPosition = inputManager.getCursorPosition();
+                break;
+            case CameraLook:
+                freeLook = isPressed;
+                break;
+            case CameraRotate:
+                if(!rotateLook && isPressed){
+                    cursorPosition = inputManager.getCursorPosition();
+                    lastCursorPosition = cursorPosition;
+                }
+                rotateLook = isPressed;
+                break;
         }
     }
-    /**
-     * Follow / Go to
-     *
-    
-    public Vector3f getTargetLocation() {
-        return targetLocation;
-    }
-
-    public void setTargetLocation(Vector3f targetLocation) {
-        this.targetLocation = targetLocation;
-    }
-
-    public boolean isFollow() {
-        return follow;
-    }
-
-    public void setFollow(boolean follow) {
-        this.follow = follow;
-    }
-    
-    /**
-     * 
-     */
-    
-    
-    /**
-     * Follow terrain
-     *
-    
-    public void setTerrain(Spatial terrain){
-        this.terrain = terrain;
-    }
-    
-    public float checkHeight(){
-        float height = 0;
-        if(terrain != null){
-            Ray ray = new Ray(cam.getLocation(), cam.getDirection());
-            CollisionResults results = new CollisionResults();
-            terrain.collideWith(ray, results);
-            if(results.size() > 0){
-                height = results.getClosestCollision().getContactPoint().y;
-            }
-        }
-        return height;
-    }
-    /**
-     * 
-     */
 }

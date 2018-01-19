@@ -5,6 +5,7 @@
  */
 package devAnimation;
 
+import com.jme3.app.FlyCamAppState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -18,6 +19,7 @@ import com.jme3.scene.debug.Grid;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.debug.WireSphere;
 import com.jme3.system.AppSettings;
+import devCamera.AnimDev_CamState;
 import devMesh.HumanoidControl;
 
 /**
@@ -26,11 +28,14 @@ import devMesh.HumanoidControl;
  */
 public class AnimDev_2 extends SimpleApplication{
 
+    private static AnimDev_2 app;
+    private AnimDev_CamState camState;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        AnimDev_2 app = new AnimDev_2();
+        app = new AnimDev_2();
         AppSettings settings = new AppSettings(false);
         settings.setTitle("AnimDev 1.2");
         app.setSettings(settings);
@@ -59,8 +64,11 @@ public class AnimDev_2 extends SimpleApplication{
         //animation = new Animation("default",10.0f);
         //boneTrack;
         rootNode.attachChild(humanoid.getNode());
-        cam.setLocation(new Vector3f(-5.0f, 9.0f, 37.0f));
-        flyCam.setMoveSpeed(50);
+        //cam.setLocation(new Vector3f(-5.0f, 9.0f, 37.0f));
+        //flyCam.setMoveSpeed(50);
+        
+        setupEnvironment();
+        camState = new AnimDev_CamState();
         
         //cam.setLocation(new Vector3f(2,1.5f,2));
         //cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
@@ -69,8 +77,11 @@ public class AnimDev_2 extends SimpleApplication{
         putArrow(Vector3f.ZERO, Vector3f.UNIT_Z, ColorRGBA.Blue);
 
         //putBox(new Vector3f(2, 0, 0), 0.5f, ColorRGBA.Yellow);
-        putGrid(new Vector3f(0, 0, 0), ColorRGBA.White);
-        putSphere(new Vector3f(0, 0, 10f), ColorRGBA.Magenta);
+        //putGrid(new Vector3f(0, 0, 0), ColorRGBA.White);
+        //putSphere(new Vector3f(0, 0, 10f), ColorRGBA.Magenta);
+        
+        app.getStateManager().getState(FlyCamAppState.class).setEnabled(false);
+        app.getStateManager().attach(camState);
     }
     
     @Override
@@ -80,14 +91,17 @@ public class AnimDev_2 extends SimpleApplication{
     
     public void setupEnvironment(){
         // Here we set up the floor-grid
-        Grid floorShape = new Grid(10, 10, 0.2f);
+        Grid floorShape = new Grid(11, 11, 0.2f);
         Geometry gridGeo = new Geometry("Floor", floorShape);
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.getAdditionalRenderState().setWireframe(true);
         mat.getAdditionalRenderState().setLineWidth(1);
         mat.setColor("Color", ColorRGBA.White);
         gridGeo.setMaterial(mat);
+        
+        gridGeo.setLocalScale(10);
         rootNode.attachChild(gridGeo);
+        gridGeo.center();
         // Set up the Animated Model
     }
     
