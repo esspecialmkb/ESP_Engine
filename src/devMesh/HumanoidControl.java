@@ -24,10 +24,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.scene.VertexBuffer.Usage;
-import static com.jme3.scene.plugins.fbx.mesh.FbxLayerElement.Type.Texture;
 import com.jme3.scene.shape.Box;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.MagFilter;
+import com.jme3.texture.Texture.MinFilter;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
@@ -1516,55 +1516,25 @@ public class HumanoidControl {
         sceneMesh.setMaxNumWeights(2);
 
         // Create model
-        Box box2 = new Box(0.25f, 0.25f, 0.25f);
-        Geometry debugRoot = new Geometry("debugRoot", box2);
-        Geometry debugPelvis = new Geometry("debugPelvis", box2);
-        Geometry debugHipL = new Geometry("debugHipL", box2);
-        Geometry debugHipR = new Geometry("debugHipR", box2);
-        Geometry debugKneeL = new Geometry("debugKneeL", box2);
-        Geometry debugKneeR = new Geometry("debugKneeR", box2);
-        Geometry debugTorso = new Geometry("debugTorso", box2);
-        Geometry debugChest = new Geometry("debugChest", box2);
-        Geometry debugShldL = new Geometry("debugShldL", box2);
-        Geometry debugShldR = new Geometry("debugShldR", box2);
-        Geometry debugElbL = new Geometry("debugElbL", box2);
-        Geometry debugElbR = new Geometry("debugElbR", box2);
-        Geometry debugNeck = new Geometry("debugNeck", box2);
+        
 
         Geometry geom = new Geometry("sceneMesh", sceneMesh);
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        Material matR = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        Material matG = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        
 
         Material matWire = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
         
         Material matSkin = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); 
         Texture skinTex = assetManager.loadTexture("Textures/SkinTemplate256_2.png"); 
         skinTex.setMagFilter(MagFilter.Nearest);
+        skinTex.setMinFilter(MinFilter.NearestNoMipMaps);
         matSkin.setTexture("ColorMap", skinTex); 
-        //skinTex.setMagFilter(Texture.MagFilter.);
+        //matSkin.getAdditionalRenderState().setDepthTest(false);
         
-        mat.setColor("Color", ColorRGBA.Blue);
-        matR.setColor("Color", ColorRGBA.Red);
-        matG.setColor("Color", ColorRGBA.Green);
 
         matWire.setColor("Color", ColorRGBA.Blue);
         matWire.getAdditionalRenderState().setWireframe(true);
 
-        debugRoot.setMaterial(matR);
-        debugPelvis.setMaterial(mat);
-        debugHipL.setMaterial(mat);
-        debugHipR.setMaterial(mat);
-        debugKneeL.setMaterial(matG);
-        debugKneeR.setMaterial(matG);
-        debugTorso.setMaterial(matG);
-        debugChest.setMaterial(matR);
-        debugShldL.setMaterial(mat);
-        debugShldR.setMaterial(mat);
-        debugElbL.setMaterial(matG);
-        debugElbR.setMaterial(matG);
-        debugNeck.setMaterial(mat);
-
+        
         //geom.setMaterial(matWire);
         geom.setMaterial(matSkin);
         model = new Node("model");
@@ -1575,19 +1545,7 @@ public class HumanoidControl {
         model.addControl(skeletonControl);
 
         //rootNode.attachChild(model);
-        skeletonControl.getAttachmentsNode("Root").attachChild(debugRoot);
-        skeletonControl.getAttachmentsNode("Pelvis").attachChild(debugPelvis);
-        skeletonControl.getAttachmentsNode("Hip_L").attachChild(debugHipL);
-        skeletonControl.getAttachmentsNode("Hip_R").attachChild(debugHipR);
-        skeletonControl.getAttachmentsNode("Knee_L").attachChild(debugKneeL);
-        skeletonControl.getAttachmentsNode("Knee_R").attachChild(debugKneeR);
-        skeletonControl.getAttachmentsNode("Torso").attachChild(debugTorso);
-        skeletonControl.getAttachmentsNode("Chest").attachChild(debugChest);
-        skeletonControl.getAttachmentsNode("Shld_L").attachChild(debugShldL);
-        skeletonControl.getAttachmentsNode("Shld_R").attachChild(debugShldR);
-        skeletonControl.getAttachmentsNode("Elb_L").attachChild(debugElbL);
-        skeletonControl.getAttachmentsNode("Elb_R").attachChild(debugElbR);
-        skeletonControl.getAttachmentsNode("Neck").attachChild(debugNeck);
+        
     }
     public void boneIndex(int vert, int bone) {
         int i = vert * 4;

@@ -30,6 +30,7 @@ public class AnimDev_2 extends SimpleApplication{
 
     private static AnimDev_2 app;
     private AnimDev_CamState camState;
+    private AnimationAppState animState;
 
     /**
      * @param args the command line arguments
@@ -37,7 +38,7 @@ public class AnimDev_2 extends SimpleApplication{
     public static void main(String[] args) {
         app = new AnimDev_2();
         AppSettings settings = new AppSettings(false);
-        settings.setTitle("AnimDev 1.2");
+        settings.setTitle("AnimDev 2.0");
         app.setSettings(settings);
         //app.showSettings = false;
         app.setDisplayStatView(false);
@@ -58,7 +59,7 @@ public class AnimDev_2 extends SimpleApplication{
         humanoid = new HumanoidControl();
         // This is the object being used for vertices
         humanoid.initMesh(assetManager);
-        humanoid.getNode().setLocalScale(0.25f);
+        //humanoid.getNode().setLocalScale(0.25f);
         //animControl = new AnimControl(skeleton);
         //animControl.setEnabled(false);
         //animation = new Animation("default",10.0f);
@@ -68,6 +69,7 @@ public class AnimDev_2 extends SimpleApplication{
         //flyCam.setMoveSpeed(50);
         
         setupEnvironment();
+        animState = new AnimationAppState(guiNode,humanoid);
         camState = new AnimDev_CamState();
         
         //cam.setLocation(new Vector3f(2,1.5f,2));
@@ -81,6 +83,7 @@ public class AnimDev_2 extends SimpleApplication{
         //putSphere(new Vector3f(0, 0, 10f), ColorRGBA.Magenta);
         
         app.getStateManager().getState(FlyCamAppState.class).setEnabled(false);
+        app.getStateManager().attach(animState);
         app.getStateManager().attach(camState);
     }
     

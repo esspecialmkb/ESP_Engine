@@ -15,6 +15,7 @@ import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
@@ -34,8 +35,14 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
     private boolean follow;
     private boolean freeLook = false;
     private boolean rotateLook = false;
+    private float camXAngle;
+    private float camYAngle;
     
     public enum InputMapping{
+        MouseLeft,
+        MouseRight,
+        MouseUp,
+        MouseDown,
         SelectJoint,
         CameraLook,
         CameraRotate,
@@ -55,7 +62,7 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
     private Node camPosTarget;
     private InputManager inputManager;
     
-    private Vector3f camLocation = new Vector3f(0, 2.5f, 10);
+    private Vector3f camLocation = new Vector3f(0, 10f, 40);
     private Vector3f lookAtDirection = new Vector3f(0, 0, -0.2f);
     private float camDistance = 10.0f;
     private float moveSpeed = 50.0f;
@@ -63,7 +70,14 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
     private Vector2f cursorPosition;
     private Vector2f lastCursorPosition;
 
-
+    protected boolean moveUp;
+    protected boolean moveDown;
+    protected boolean moveLeft;
+    protected boolean moveRight;
+    protected boolean rotateRight;
+    protected boolean rotateLeft;
+    protected boolean rotateUp;
+    protected boolean rotateDown;
     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
@@ -73,8 +87,12 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
         rotateNode = new Node();
         camPosTarget = new Node();
         
+        camXAngle = 0;
+        camYAngle = 0;
+        
         translateNode.setLocalTranslation(0,0,0);
-        rotateNode.setLocalTranslation(0, 3.5f, 0);
+        rotateNode.setLocalTranslation(0, 14f, 0);
+        camPosTarget.setLocalTranslation(0,0,40);
         translateNode.attachChild(rotateNode);
         rotateNode.attachChild(camPosTarget);
         
@@ -94,13 +112,21 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
         
         inputManager.addMapping(InputMapping.CameraLook.name(), new KeyTrigger(KeyInput.KEY_LSHIFT));
         inputManager.addMapping(InputMapping.CameraRotate.name(), new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
-        inputManager.addMapping(InputMapping.SelectJoint.name(), new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+        //inputManager.addMapping(InputMapping.SelectJoint.name(), new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+        
+        inputManager.addMapping(InputMapping.MouseLeft.name(), new MouseAxisTrigger(MouseInput.AXIS_X, true));
+        inputManager.addMapping(InputMapping.MouseRight.name(), new MouseAxisTrigger(MouseInput.AXIS_X, false));
+        
+        inputManager.addMapping(InputMapping.MouseUp.name(), new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+        inputManager.addMapping(InputMapping.MouseDown.name(), new MouseAxisTrigger(MouseInput.AXIS_Y, false));
         
         //inputManager.addMapping(InputMapping.RotateLeft.name(), new KeyTrigger(KeyInput.KEY_E));
         //inputManager.addMapping(InputMapping.RotateRight.name(), new KeyTrigger(KeyInput.KEY_Q));
         //inputManager.addMapping(InputMapping.RotateUp.name(), new KeyTrigger(KeyInput.KEY_R));
         //inputManager.addMapping(InputMapping.RotateDown.name(), new KeyTrigger(KeyInput.KEY_F));
-        inputManager.addListener(this, new String[]{InputMapping.MoveLeft.name(), InputMapping.MoveRight.name(), InputMapping.MoveUp.name(), InputMapping.MoveDown.name()});
+        inputManager.addListener(this, new String[]{InputMapping.MoveLeft.name(), InputMapping.MoveRight.name(), InputMapping.MoveUp.name(), InputMapping.MoveDown.name(), 
+                                                    InputMapping.CameraRotate.name(), InputMapping.CameraLook.name(),
+                                                    InputMapping.MouseDown.name(), InputMapping.MouseUp.name(), InputMapping.MouseLeft.name(), InputMapping.MouseRight.name()});
         
     }
     
@@ -135,11 +161,17 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
             } else if (moveRight){
                 tempVector.addLocal(-1f, 0, 0);
             }
-        }else if(rotateLook == true){
+        }if(rotateLook == true){
+            //System.out.println("rotateLook " + camYAngle);
             // Rotate the camera with the mouse when RMB is down
             cursorPosition = inputManager.getCursorPosition();
-            //Get the change in cursor position since the last time this mode was triggered
+            rotateY(camYAngle);
+            rotateX(camXAngle);
+            camLocation = camPosTarget.getWorldTranslation();
             
+            cameraLookAt(new Vector3f(0,10f,0));
+            
+            //System.out.println(lastCursorPosition);
         }
         
         cam.setLocation(camLocation);
@@ -159,16 +191,16 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
         }
     }
     
-    private void rotateY(float value){
-        Quaternion rotate = new Quaternion().fromAngleAxis(FastMath.PI * value, Vector3f.UNIT_Y);
-        rotate.multLocal(cam.getRotation());
-        cam.setRotation(rotate);
+    private void rotateY(float valueY){
+        Quaternion rotateY = new Quaternion().fromAngleAxis(valueY, Vector3f.UNIT_Y);
+        Quaternion worldRotation = rotateNode.getWorldRotation();
+        rotateNode.setLocalRotation(worldRotation.mult(rotateY));
     }
     
-    private void rotateX(float value){
-        Quaternion rotate = new Quaternion().fromAngleAxis(FastMath.PI * value, Vector3f.UNIT_X);
-        rotate.multLocal(cam.getRotation());
-        cam.setRotation(rotate);
+    private void rotateX(float valueX){
+        Quaternion rotateX = new Quaternion().fromAngleAxis(valueX, Vector3f.UNIT_X);
+        Quaternion worldRotation = rotateNode.getWorldRotation();
+        rotateNode.setLocalRotation(worldRotation.mult(rotateX));
     }
 
     public void cameraLookAt(Vector3f target){
@@ -177,17 +209,45 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
 
     @Override
     public void onAnalog(String name, float value, float tpf) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        InputMapping input = InputMapping.valueOf(name);
+        //System.out.println(input.name());
+        //value = value * 100;
+        if(value > 0.005f){
+            switch(input){
+                case MouseLeft:
+                    if(rotateLook == true){
+                        //camYAngle = camYAngle + value;
+                        //rotateY(value * 100);
+                        camYAngle = value;
+                        //System.out.println("onAnalog " + value);
+                    }
+                    //System.out.println("onAnalog Post " + value);
+                    break;
+                case MouseRight:
+                    if(rotateLook){
+                        camYAngle = -value;
+                        //rotateY(value);
+                    }
+
+                    break;
+                case MouseUp:
+                    if(rotateLook){
+                        camXAngle = value;
+                    }
+
+                    break;
+                case MouseDown:
+                    if(rotateLook){
+                        camXAngle = -value;
+                    }
+
+                    break;
+            }
+        }
+        
     }
     
-    protected boolean moveUp;
-    protected boolean moveDown;
-    protected boolean moveLeft;
-    protected boolean moveRight;
-    protected boolean rotateRight;
-    protected boolean rotateLeft;
-    protected boolean rotateUp;
-    protected boolean rotateDown;
+    
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -225,9 +285,9 @@ public class AnimDev_CamState extends AbstractAppState implements AnalogListener
                 freeLook = isPressed;
                 break;
             case CameraRotate:
-                if(!rotateLook && isPressed){
-                    cursorPosition = inputManager.getCursorPosition();
-                    lastCursorPosition = cursorPosition;
+                if((isPressed == false)){
+                    camYAngle = 0;
+                    camXAngle = 0;
                 }
                 rotateLook = isPressed;
                 break;
