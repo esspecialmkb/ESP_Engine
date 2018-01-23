@@ -17,7 +17,8 @@ import com.jme3.scene.shape.Sphere;
 
 /**
  *
- * @author esspe
+ * @author Michael B.
+ * Introducing GUIAppState into _2_1
  */
 public class GUIAppState extends AbstractAppState {
     private Node guiNode;

@@ -22,7 +22,7 @@ import java.io.IOException;
 
 /**
  *
- * @author esspe
+ * @author Michael B. (recipe)
  * usage: skinnedMesh.addControl(new CharacterAnimationManager());
  */
 public class CharacterAnimationManager extends AbstractControl implements AnimEventListener{

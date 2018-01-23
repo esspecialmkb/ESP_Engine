@@ -57,7 +57,7 @@ public class AnimationAppState extends AbstractAppState implements ActionListene
     
     private boolean selectBone = false;
     private BoneSelectionHandle activeSelection_Bone = BoneSelectionHandle.Null;
-
+    
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         InputMapping input = InputMapping.valueOf(name);
@@ -89,7 +89,7 @@ public class AnimationAppState extends AbstractAppState implements ActionListene
     }
     
     public AnimationAppState(){
-        
+        activeSelection_Bone = BoneSelectionHandle.Null;
     }
     
     public AnimationAppState(HumanoidControl humanoid){
@@ -128,6 +128,7 @@ public class AnimationAppState extends AbstractAppState implements ActionListene
             mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
             matR = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
             matG = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+            
             selectables = new Node("selectables");
             for(int b = 0; b < skeleton.getBoneCount();b++){
                 Geometry boneHandle = new Geometry(skeleton.getBone(b).getName(),jointHandle);
@@ -192,6 +193,10 @@ public class AnimationAppState extends AbstractAppState implements ActionListene
         //TODO: clean up what you initialized in the initialize method,
         //e.g. remove all spatials from rootNode
         //this is called on the OpenGL thread after the AppState has been detached
+    }
+    
+    public BoneSelectionHandle getSelectedBone(){
+        return activeSelection_Bone;
     }
     
 }
